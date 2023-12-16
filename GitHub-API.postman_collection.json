@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "2761bfec-9fb9-4a27-8500-64dea7887835",
+		"name": "GitHub-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31715086"
+	},
+	"item": [
+		{
+			"name": "GetAllRepos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check if the response status code is 200 ok\r",
+							"\r",
+							"pm.test(\"status code is 200\", function() {\r",
+							"\r",
+							"\r",
+							"pm.response.to.have.status(200);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body conatins '820888'\", function() {\r",
+							"\r",
+							"    pm.expect(pm.response.text()).include(\"820888\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/user/repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"user",
+						"repos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSpecific_Repos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code should be 200\", function(){\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less han 500ms\", function(){\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type should be application/json\", function(){\r",
+							"    pm.response.to.have.header(\"Content-Type\",\"application/json; charset=utf-8\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response body is valid JSON\", function(){\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"check specific field existence\", function(){\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"id\");\r",
+							"     pm.expect(pm.response.json()).to.have.property(\"node_id\");\r",
+							"     pm.expect(pm.response.json()).to.have.property(\"full_name\");\r",
+							"     pm.expect(pm.response.json()).to.have.property(\"private\");\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"//How to fetch jsonresponse in variable\r",
+							"\r",
+							"var resData = JSON.parse(responseBody);\r",
+							"\r",
+							"console.log(resData.id);\r",
+							"console.log(resData.node_id);\r",
+							"console.log(resData.name);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/:owner/:repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						":owner",
+						":repos"
+					],
+					"variable": [
+						{
+							"key": "owner",
+							"value": "820888"
+						},
+						{
+							"key": "repos",
+							"value": "phase2_TestingProjects"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
